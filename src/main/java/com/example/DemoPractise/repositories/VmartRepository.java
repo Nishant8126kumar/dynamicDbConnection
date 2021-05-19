@@ -8,7 +8,7 @@ import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 public class VmartRepository {
@@ -16,12 +16,15 @@ public class VmartRepository {
     @Autowired
     ObjectMapper objectMapper;
 
-    public String insertData(MongoCollection mongoCollection) throws JsonProcessingException {
-        PurchaseOrder clientDalmia = new PurchaseOrder();
-        String jsonString = objectMapper.writeValueAsString(clientDalmia);
-        Document document = Document.parse(jsonString);
-        document.put("_id", UUID.randomUUID().toString());
-        mongoCollection.insertOne(document);
+    public String insertData(MongoCollection<Document> mongoCollection, List<Object> payLoad) throws JsonProcessingException {
+        List<Document> documentList = new ArrayList<>();
+        for (Object object : payLoad) {
+            String jsonString = objectMapper.writeValueAsString(object);
+            Document doc = Document.parse(jsonString);
+            doc.put("_id", UUID.randomUUID().toString());
+            documentList.add(doc);
+        }
+        mongoCollection.insertMany(documentList);
         return "Successfully";
     }
 }

@@ -2,8 +2,8 @@ package com.example.DemoPractise.utils;
 
 public interface DButilsMapping {
     enum VMARTDATABASE {
-        vehicle("vehicle","vmart-manager"),
-        purchaseOrder("PurchaseOrder","Purchase-order");
+        vehicle("vehicle","vehicle-manager"),
+        purchaseOrder("PurchaseOrder","purchase-order");
         private String collectionName;
         private String databaseCollectionName;
 
